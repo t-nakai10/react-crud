@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "firebase.js";
 
@@ -9,7 +9,7 @@ function App() {
     // コレクションを参照.
     const usersCollectionRef = collection(db, "users");
     // getDocs でクエリを実行し、一つづつ取り出す.
-    getDocs(usersCollectionRef).then((querySnapshot) => {
+    onSnapshot(usersCollectionRef, (querySnapshot) => {
       setUsers(
         querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
       );
