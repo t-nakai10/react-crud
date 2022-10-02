@@ -1,4 +1,4 @@
-import { collection } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "firebase.js";
 
@@ -7,7 +7,9 @@ function App() {
 
   useEffect(() => {
     const usersCollectionRef = collection(db, "users");
-    console.log(usersCollectionRef);
+    getDocs(usersCollectionRef).then((querySnapshot) => {
+      console.log(querySnapshot);
+    });
   }, []);
 
   return <div className="App"></div>;
