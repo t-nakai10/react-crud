@@ -8,7 +8,8 @@ function App() {
   useEffect(() => {
     // コレクションを参照.
     const usersCollectionRef = collection(db, "users");
-    // getDocs でクエリを実行し、一つづつ取り出す.
+    // onSnapshot でクエリを実行し、リアルタイムで更新を行う.
+    // 更新を検知するためイベントリスナの登録が行われているため, 返却されるのは Unsubscribe.
     onSnapshot(usersCollectionRef, (querySnapshot) => {
       setUsers(
         querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
