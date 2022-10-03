@@ -1,4 +1,10 @@
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "firebase.js";
 
@@ -20,10 +26,11 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { name, email } = event.target.elements;
-    const userCollectionRef = collection(db, "users");
-    await addDoc(userCollectionRef, {
+    const userCollectionRef = doc(collection(db, "users"));
+    await setDoc(userCollectionRef, {
       name: name.value,
       email: email.value,
+      timestamp: serverTimestamp(),
     });
   };
 
