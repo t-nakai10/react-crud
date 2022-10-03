@@ -19,6 +19,17 @@ function App() {
 
   return (
     <div className="App">
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label for="name">名前</label>
+          <input type="text" name="name" placeholder="名前" />
+        </div>
+        <div>
+          <label for="email">メールアドレス</label>
+          <input type="email" name="email" placeholder="メールアドレス" />
+        </div>
+      </form>
+
       {users.map((user) => (
         <p key={user.id}>{user.name}</p>
       ))}
