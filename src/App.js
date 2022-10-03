@@ -44,7 +44,10 @@ function App() {
       </form>
 
       {users.map((user) => (
-        <p key={user.id}>{user.name}</p>
+        <div key={user.id}>
+          <p>名前: {user.name}</p>
+          <p>メール: {user.email}</p>
+        </div>
       ))}
     </div>
   );
