@@ -17,16 +17,25 @@ function App() {
     });
   }, []);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const { name, email } = event.target.elements;
+    console.log(name.value, email.value);
+  };
+
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
         <div>
-          <label for="name">名前</label>
+          <label htmlFor="name">名前</label>
           <input type="text" name="name" placeholder="名前" />
         </div>
         <div>
-          <label for="email">メールアドレス</label>
+          <label htmlFor="email">メールアドレス</label>
           <input type="email" name="email" placeholder="メールアドレス" />
+        </div>
+        <div>
+          <button>登録</button>
         </div>
       </form>
 
