@@ -1,5 +1,6 @@
 import {
   collection,
+  deleteDoc,
   doc,
   onSnapshot,
   serverTimestamp,
@@ -34,6 +35,11 @@ function App() {
     });
   };
 
+  const deleteUser = async (id) => {
+    const userDocumentRef = doc(db, "users", id);
+    await deleteDoc(userDocumentRef);
+  };
+
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
@@ -54,6 +60,7 @@ function App() {
         <div key={user.id}>
           <p>名前: {user.name}</p>
           <p>メール: {user.email}</p>
+          <button onClick={() => deleteUser(user.id)}>削除</button>
         </div>
       ))}
     </div>
