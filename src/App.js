@@ -2,9 +2,12 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
+  query,
   serverTimestamp,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "firebase.js";
@@ -40,6 +43,20 @@ function App() {
     await deleteDoc(userDocumentRef);
   };
 
+  const deleteUserSameName = async (name) => {
+    const userCollectionRef = collection(db, "users");
+    // 名前が同じものに限定.
+    const q = query(userCollectionRef, where("name", "==", name));
+    // 実行.
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach(async (document) => {
+      // id を指定し特定のドキュメントのみ参照.
+      const userDocumentRef = doc(db, "users", document.id);
+      await deleteDoc(userDocumentRef);
+    });
+  };
+
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
@@ -60,7 +77,11 @@ function App() {
         <div key={user.id}>
           <p>名前: {user.name}</p>
           <p>メール: {user.email}</p>
+          {/* 引数を持たす場合コールバックにする必要がある? */}
           <button onClick={() => deleteUser(user.id)}>削除</button>
+          <button onClick={() => deleteUserSameName(user.name)}>
+            同じ名前のユーザーを削除
+          </button>
         </div>
       ))}
     </div>
