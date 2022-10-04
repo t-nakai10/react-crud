@@ -7,6 +7,7 @@ import {
   query,
   serverTimestamp,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ import { db } from "firebase.js";
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [newEmail, setNewEmail] = useState("");
 
   useEffect(() => {
     // コレクションを参照.
@@ -57,6 +59,14 @@ function App() {
     });
   };
 
+  const changeEmail = async (e, id) => {
+    e.preventDefault();
+    const usersDocumentRef = doc(db, "users", id);
+    await updateDoc(usersDocumentRef, {
+      email: newEmail,
+    });
+  };
+
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
@@ -82,6 +92,13 @@ function App() {
           <button onClick={() => deleteUserSameName(user.name)}>
             同じ名前のユーザーを削除
           </button>
+          <form onSubmit={(e) => changeEmail(e, user.id)}>
+            <input
+              type="text"
+              placeholder="メールアドレスを変更"
+              onChange={(e) => setNewEmail(e.target.value)}
+            />
+          </form>
         </div>
       ))}
     </div>
